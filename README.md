@@ -49,3 +49,7 @@ Override `--twb-accent` (and `--twb-accent-alt` / `--twb-warm` if you like) — 
 ## Use it anywhere else
 
 For terminals, editors, dashboards, slide decks — anything that isn't CSS — give [THEME-SPEC.md](THEME-SPEC.md) to the tool or AI doing the work. Section 7 of the spec explains exactly which parts to hand over. The result should pass the spec's checklist: both modes, adequate contrast, quiet chrome, color spent only on signal.
+
+## License
+
+[MIT](LICENSE)
