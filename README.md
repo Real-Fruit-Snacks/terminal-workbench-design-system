@@ -2,7 +2,7 @@
 
 A portable design system: calm graphite surfaces, restrained ANSI-style accents, monospace "manifest" labels, and mandatory dark + light modes. Distilled from the [Terminal Workbench Obsidian theme](https://github.com/Real-Fruit-Snacks/terminal-workbench) into a form any project can consume.
 
-**Live demo:** https://real-fruit-snacks.github.io/style/
+**Live demo:** https://real-fruit-snacks.github.io/terminal-workbench-design-system/
 
 ## What's here
 
@@ -17,7 +17,7 @@ A portable design system: calm graphite surfaces, restrained ANSI-style accents,
 Link the tokens:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Real-Fruit-Snacks/style@main/tokens.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Real-Fruit-Snacks/terminal-workbench-design-system@main/tokens.css">
 ```
 
 Build on the variables:
