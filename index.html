@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terminal Workbench — Portable Design System</title>
+<meta name="description" content="A calm, dense, high-contrast design system for people who live in panes, shells, logs, and code. Tokens, typography, and component patterns in dark and light modes.">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* ===== Base ===== */
+  * { box-sizing: border-box; }
+
+  html { background: var(--twb-bg-0); }
+
+  body {
+    margin: 0;
+    background: var(--twb-bg-0);
+    color: var(--twb-text-normal);
+    font-family: var(--twb-font-ui);
+    font-size: 15px;
+    line-height: var(--twb-line-height);
+  }
+
+  ::selection { background: var(--twb-selection); }
+
+  a {
+    color: var(--twb-accent-alt);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  a:hover { border-bottom-color: var(--twb-accent-alt); }
+
+  code, pre, kbd { font-family: var(--twb-font-mono); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .t, button, a, input, .swatch, .tag, .tab, .nav-item, tr {
+      transition: background var(--twb-transition), color var(--twb-transition),
+        border-color var(--twb-transition), box-shadow var(--twb-transition);
+    }
+  }
+
+  /* ===== The "terminal manifest" label idiom ===== */
+  .manifest {
+    font-family: var(--twb-font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--twb-text-muted);
+  }
+  .manifest.faint { color: var(--twb-text-faint); }
+
+  /* ===== Layout ===== */
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  header.site {
+    border-bottom: 1px solid var(--twb-border);
+    background: var(--twb-bg-1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header.site .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 46px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+  .brand .prompt { color: var(--twb-accent); font-family: var(--twb-font-mono); font-weight: 700; }
+
+  /* Theme switch — segmented, manifest idiom */
+  .mode-switch {
+    display: flex;
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-s);
+    overflow: hidden;
+  }
+  .mode-switch button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-family: var(--twb-font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--twb-text-muted);
+  }
+  .mode-switch button + button { border-left: 1px solid var(--twb-border); }
+  .mode-switch button:hover { background: var(--twb-bg-3); color: var(--twb-text-normal); }
+  .mode-switch button[aria-pressed="true"] {
+    background: var(--twb-bg-3);
+    color: var(--twb-accent);
+  }
+  .mode-switch button:focus-visible { outline: 2px solid var(--twb-focus-ring); outline-offset: -2px; }
+
+  main { padding: 48px 0 24px; }
+
+  section { margin: 56px 0; }
+  section > .manifest {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  section > .manifest::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--twb-border), transparent);
+  }
+
+  /* ===== Prose ===== */
+  h1 {
+    font-size: 2.1em;
+    font-weight: 760;
+    line-height: 1.2;
+    margin: 0 0 6px;
+  }
+  .subtitle { color: var(--twb-text-muted); margin: 0 0 28px; max-width: 60ch; }
+
+  h2 { font-size: 1.38em; font-weight: 740; color: var(--twb-accent); }
+  h3 { font-size: 1.16em; font-weight: 720; color: var(--twb-accent-alt); }
+  h4 { font-size: 1.04em; font-weight: 700; color: var(--twb-warm); }
+  h5 {
+    font-size: 0.95em; font-weight: 700; color: var(--twb-text-muted);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  p { max-width: 68ch; }
+
+  .philosophy {
+    border: 1px solid var(--twb-border);
+    border-left: 3px solid var(--twb-accent);
+    background: var(--twb-blockquote-bg);
+    border-radius: 0 var(--twb-radius-m) var(--twb-radius-m) 0;
+    padding: 16px 20px;
+    margin: 0;
+    max-width: none;
+  }
+  .philosophy p { margin: 0; font-size: 15.5px; }
+
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+  }
+  .principles li {
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    background: var(--twb-bg-1);
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: var(--twb-text-soft);
+  }
+  .principles li strong { display: block; color: var(--twb-text-normal); margin-bottom: 4px; }
+  .principles li .manifest { display: block; margin-bottom: 8px; color: var(--twb-accent); }
+
+  /* ===== Swatches ===== */
+  .swatch-group { margin-bottom: 24px; }
+  .swatch-group > .manifest { display: block; margin-bottom: 10px; }
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .swatch {
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    background: var(--twb-bg-1);
+    overflow: hidden;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+  }
+  .swatch:hover { border-color: var(--twb-border-strong); }
+  .swatch:focus-visible { outline: 2px solid var(--twb-focus-ring); }
+  .swatch .chip { height: 44px; border-bottom: 1px solid var(--twb-border); }
+  .swatch .meta { padding: 8px 10px; }
+  .swatch .name {
+    font-family: var(--twb-font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--twb-text-soft);
+    display: block;
+  }
+  .swatch .hex {
+    font-family: var(--twb-font-mono);
+    font-size: 10.5px;
+    color: var(--twb-text-faint);
+    text-transform: uppercase;
+  }
+  .swatch.copied .hex { color: var(--twb-accent); }
+
+  /* ===== Typography demo ===== */
+  .type-demo {
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    background: var(--twb-bg-1);
+    padding: 24px 28px;
+  }
+  .type-demo > * { margin: 0 0 14px; }
+  .type-demo > *:last-child { margin-bottom: 0; }
+  .type-row { display: flex; align-items: baseline; gap: 16px; }
+  .type-row .manifest { flex: 0 0 96px; }
+
+  /* ===== Components ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    background: var(--twb-bg-1);
+    overflow: hidden;
+  }
+  .card > .head {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--twb-border);
+    background: var(--twb-bg-2);
+  }
+  .card > .body { padding: 16px 14px; }
+  .card.span2 { grid-column: span 2; }
+  @media (max-width: 640px) { .card.span2 { grid-column: span 1; } }
+
+  /* Tabs */
+  .tabbar {
+    display: flex;
+    background: var(--twb-bg-2);
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-s);
+    overflow: hidden;
+  }
+  .tab {
+    appearance: none; border: 0; background: transparent; cursor: pointer;
+    padding: 8px 14px;
+    font-family: var(--twb-font-mono);
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--twb-text-muted);
+  }
+  .tab:hover { background: var(--twb-bg-3); color: var(--twb-text-normal); }
+  .tab[aria-selected="true"] { background: var(--twb-bg-3); color: var(--twb-accent); }
+  .tab:focus-visible { outline: 2px solid var(--twb-focus-ring); outline-offset: -2px; }
+
+  /* Nav items */
+  .nav-item {
+    display: block;
+    padding: 6px 12px;
+    border-radius: var(--twb-radius-s);
+    color: var(--twb-text-muted);
+    font-size: 13.5px;
+    border-left: 2px solid transparent;
+  }
+  .nav-item:hover { background: var(--twb-bg-2); color: var(--twb-text-normal); border-bottom-color: transparent; }
+  .nav-item.active {
+    background: var(--twb-nav-active);
+    border-left-color: var(--twb-accent);
+    color: var(--twb-text-normal);
+  }
+
+  /* Buttons */
+  .btn {
+    appearance: none;
+    font: 600 13.5px var(--twb-font-ui);
+    padding: 7px 16px;
+    border-radius: var(--twb-radius-m);
+    border: 1px solid var(--twb-border);
+    background: var(--twb-bg-2);
+    color: var(--twb-text-normal);
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--twb-bg-3); border-color: var(--twb-border-strong); }
+  .btn:focus-visible { outline: 2px solid var(--twb-focus-ring); }
+  .btn.primary {
+    background: var(--twb-accent);
+    border-color: var(--twb-accent);
+    color: var(--twb-text-on-accent);
+    font-weight: 650;
+  }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.danger { color: var(--twb-red); }
+
+  /* Inputs */
+  .field { display: block; margin-bottom: 12px; }
+  .field .manifest { display: block; margin-bottom: 6px; }
+  .input {
+    width: 100%;
+    background: var(--twb-bg-2);
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    color: var(--twb-text-normal);
+    font: 13.5px var(--twb-font-ui);
+    padding: 7px 10px;
+  }
+  .input::placeholder { color: var(--twb-text-faint); }
+  .input:focus {
+    outline: 2px solid var(--twb-focus-ring);
+    border-color: var(--twb-accent);
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    font-family: var(--twb-font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: var(--twb-radius-s);
+    background: var(--twb-tag-bg);
+    border: 1px solid var(--twb-tag-border);
+    color: var(--twb-accent);
+    cursor: default;
+  }
+  .tag:hover { background: var(--twb-accent); color: var(--twb-text-on-accent); }
+
+  /* Checkboxes */
+  .check-list { list-style: none; margin: 0; padding: 0; font-size: 13.5px; }
+  .check-list li { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+  .cb {
+    --checkbox-color: var(--twb-accent);
+    width: 15px; height: 15px; flex: 0 0 15px;
+    border-radius: var(--twb-radius-s);
+    border: 1px solid var(--twb-border-strong);
+    display: inline-grid; place-items: center;
+  }
+  .cb.on {
+    background: var(--checkbox-color);
+    border-color: var(--checkbox-color);
+  }
+  .cb.on::after {
+    content: "";
+    width: 4px; height: 8px;
+    border: solid var(--twb-text-on-accent);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translateY(-1px);
+  }
+  .cb.cancelled { --checkbox-color: var(--twb-red); }
+  .cb.deferred  { --checkbox-color: var(--twb-accent-alt); }
+  .cb.important { --checkbox-color: var(--twb-warm); }
+  .check-list .done-text { color: var(--twb-text-faint); text-decoration: line-through; }
+
+  /* Callouts */
+  .callout {
+    border-radius: var(--twb-radius-m);
+    padding: 12px 16px;
+    font-size: 13.5px;
+    margin-bottom: 12px;
+  }
+  .callout:last-child { margin-bottom: 0; }
+  .callout .manifest { display: block; margin-bottom: 4px; }
+  .callout.tip {
+    background: color-mix(in srgb, var(--twb-accent) 9%, var(--twb-bg-0));
+    border: 1px solid color-mix(in srgb, var(--twb-accent) 34%, var(--twb-border));
+    border-left: 3px solid var(--twb-accent);
+  }
+  .callout.tip .manifest { color: var(--twb-accent); }
+  .callout.warn {
+    background: color-mix(in srgb, var(--twb-warm) 9%, var(--twb-bg-0));
+    border: 1px solid color-mix(in srgb, var(--twb-warm) 34%, var(--twb-border));
+    border-left: 3px solid var(--twb-warm);
+  }
+  .callout.warn .manifest { color: var(--twb-warm); }
+  .callout.error {
+    background: color-mix(in srgb, var(--twb-red) 9%, var(--twb-bg-0));
+    border: 1px solid color-mix(in srgb, var(--twb-red) 34%, var(--twb-border));
+    border-left: 3px solid var(--twb-red);
+  }
+  .callout.error .manifest { color: var(--twb-red); }
+
+  /* Table */
+  .table-wrap {
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--twb-bg-2);
+    font-family: var(--twb-font-mono);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--twb-text-muted);
+    text-align: left;
+    padding: 8px 12px;
+  }
+  td { padding: 7px 12px; border-top: 1px solid var(--twb-border); color: var(--twb-text-soft); }
+  tbody tr:nth-child(even) { background: color-mix(in srgb, var(--twb-text-normal) 2.5%, transparent); }
+  tbody tr:hover { background: color-mix(in srgb, var(--twb-accent-alt) 7%, transparent); }
+  td .status { font-family: var(--twb-font-mono); font-size: 11px; font-weight: 600; }
+  td .status.ok { color: var(--twb-accent); }
+  td .status.warn { color: var(--twb-warm); }
+  td .status.err { color: var(--twb-red); }
+
+  /* Code block */
+  .codeblock {
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    overflow: hidden;
+    background: var(--twb-bg-2);
+  }
+  .codeblock .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--twb-bg-3);
+    border-bottom: 1px solid var(--twb-border);
+    padding: 6px 14px;
+  }
+  .codeblock pre {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: var(--twb-line-height-code);
+    color: var(--twb-text-soft);
+  }
+  .tok-kw { color: var(--twb-violet); }
+  .tok-fn { color: var(--twb-accent-alt); }
+  .tok-str { color: var(--twb-accent); }
+  .tok-num { color: var(--twb-orange); }
+  .tok-cm { color: var(--twb-text-faint); font-style: italic; }
+  .tok-err { color: var(--twb-red); }
+
+  code.inline {
+    font-size: 0.92em;
+    background: var(--twb-bg-2);
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-s);
+    padding: 1px 6px;
+    color: var(--twb-text-soft);
+  }
+
+  /* Blockquote + mark */
+  blockquote {
+    margin: 0;
+    padding: 10px 16px;
+    background: var(--twb-blockquote-bg);
+    border-left: 3px solid var(--twb-accent);
+    border-radius: 0;
+    font-size: 13.5px;
+    color: var(--twb-text-soft);
+  }
+  mark { background: var(--twb-highlight); color: var(--twb-text-normal); border-radius: 2px; padding: 0 2px; }
+
+  /* Scroll demo */
+  .scrollpane {
+    height: 120px;
+    overflow-y: scroll;
+    background: var(--twb-bg-2);
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-m);
+    padding: 10px 14px;
+    font-family: var(--twb-font-mono);
+    font-size: 11.5px;
+    line-height: 1.8;
+    color: var(--twb-text-muted);
+  }
+  .scrollpane::-webkit-scrollbar { width: 10px; }
+  .scrollpane::-webkit-scrollbar-track { background: transparent; }
+  .scrollpane::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--twb-text-faint) 46%, transparent);
+    border: 2px solid transparent;
+    border-radius: var(--twb-radius-pill);
+    background-clip: content-box;
+  }
+  .scrollpane .ok { color: var(--twb-accent); }
+  .scrollpane .warn { color: var(--twb-warm); }
+
+  /* ===== Usage ===== */
+  .usage-steps { counter-reset: step; list-style: none; margin: 0; padding: 0; }
+  .usage-steps > li {
+    position: relative;
+    padding: 0 0 20px 44px;
+    counter-increment: step;
+  }
+  .usage-steps > li::before {
+    content: counter(step, decimal-leading-zero);
+    position: absolute;
+    left: 0; top: 1px;
+    font-family: var(--twb-font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--twb-accent);
+    border: 1px solid var(--twb-border);
+    border-radius: var(--twb-radius-s);
+    background: var(--twb-bg-1);
+    padding: 3px 7px;
+  }
+  .usage-steps h3 { margin: 0 0 6px; }
+  .usage-steps p { margin: 0 0 10px; font-size: 14px; color: var(--twb-text-soft); }
+
+  footer.site {
+    border-top: 1px solid var(--twb-border);
+    background: var(--twb-bg-1);
+    margin-top: 64px;
+  }
+  footer.site .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <div class="brand">
+      <span class="prompt">❯</span>
+      <span class="manifest">Real-Fruit-Snacks / Style</span>
+    </div>
+    <div class="mode-switch" role="group" aria-label="Color mode">
+      <button type="button" data-mode="auto">Auto</button>
+      <button type="button" data-mode="light">Light</button>
+      <button type="button" data-mode="dark">Dark</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h1>Terminal Workbench</h1>
+  <p class="subtitle">A portable design system for terminals, editors, dashboards, sites — anywhere. One set of tokens, two mandatory modes, zero flourish.</p>
+
+  <blockquote class="philosophy">
+    <p><strong>A calm, dense, high-contrast working surface for people who live in panes, shells, logs, and code — not retro green-on-black novelty.</strong> Graphite backgrounds, crisp typography, restrained ANSI-style accents, readable code, and chrome that feels close to a modern terminal. The interface stays quiet; signal carries the color. When in doubt, remove the flourish.</p>
+  </blockquote>
+
+  <ul class="principles">
+    <li><span class="manifest">01 / Chrome</span><strong>Quiet chrome, loud signal</strong>Backgrounds and borders stay near-monochrome graphite. Color is spent only on things that mean something.</li>
+    <li><span class="manifest">02 / Density</span><strong>Dense but breathable</strong>Tight vertical rhythm and small UI text, but generous 1.7 line-height in prose.</li>
+    <li><span class="manifest">03 / Accent</span><strong>One accent family</strong>Green primary, cyan secondary, warm amber. Never a rainbow — red, orange, violet exist only for meaning.</li>
+    <li><span class="manifest">04 / Voice</span><strong>Monospace as a UI voice</strong>Structural labels use small uppercase mono with wide tracking — the “terminal manifest” idiom.</li>
+    <li><span class="manifest">05 / Depth</span><strong>Flat, not glassy</strong>No decorative gradients or shadows. Depth comes from layered flat surfaces and hairline borders.</li>
+  </ul>
+
+  <section id="color">
+    <span class="manifest">§ Color System</span>
+
+    <div class="swatch-group">
+      <span class="manifest faint">Accent ramp</span>
+      <div class="swatches" data-tokens="accent,accent-alt,warm"></div>
+    </div>
+    <div class="swatch-group">
+      <span class="manifest faint">Semantic hues</span>
+      <div class="swatches" data-tokens="red,orange,violet"></div>
+    </div>
+    <div class="swatch-group">
+      <span class="manifest faint">Surfaces — graphite ramp</span>
+      <div class="swatches" data-tokens="bg-0,bg-1,bg-2,bg-3,bg-4,border,border-strong"></div>
+    </div>
+    <div class="swatch-group">
+      <span class="manifest faint">Text</span>
+      <div class="swatches" data-tokens="text-normal,text-soft,text-muted,text-faint,text-on-accent"></div>
+    </div>
+    <p style="font-size:13px;color:var(--twb-text-muted)">Click any swatch to copy its current hex. Values shown are live — switch modes above and watch them resolve.</p>
+  </section>
+
+  <section id="type">
+    <span class="manifest">§ Typography</span>
+    <div class="type-demo">
+      <div class="type-row"><span class="manifest faint">manifest</span><span class="manifest">Properties · Tab Title · Breadcrumb</span></div>
+      <div class="type-row"><span class="manifest faint">h2 / accent</span><h2 style="margin:0">Section heading</h2></div>
+      <div class="type-row"><span class="manifest faint">h3 / alt</span><h3 style="margin:0">Subsection heading</h3></div>
+      <div class="type-row"><span class="manifest faint">h4 / warm</span><h4 style="margin:0">Minor heading</h4></div>
+      <div class="type-row"><span class="manifest faint">h5 / muted</span><h5 style="margin:0">Quiet heading</h5></div>
+      <div class="type-row"><span class="manifest faint">body 15px</span><p style="margin:0">Prose sits at 15px with a 1.7 line-height so long reading sessions don’t fatigue. Links look <a href="#type">like this</a>, emphasis <mark>highlights warm</mark>, and inline code reads as <code class="inline">twb --mode=calm</code>.</p></div>
+    </div>
+  </section>
+
+  <section id="components">
+    <span class="manifest">§ Components</span>
+    <div class="grid">
+
+      <div class="card">
+        <div class="head"><span class="manifest faint">Tabs + Nav</span></div>
+        <div class="body">
+          <div class="tabbar" role="tablist" style="margin-bottom:14px">
+            <button class="tab" role="tab" aria-selected="true">editor</button>
+            <button class="tab" role="tab" aria-selected="false">terminal</button>
+            <button class="tab" role="tab" aria-selected="false">logs</button>
+          </div>
+          <nav>
+            <a class="nav-item active" href="#components">Design tokens</a>
+            <a class="nav-item" href="#components">Typography</a>
+            <a class="nav-item" href="#components">Components</a>
+          </nav>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head"><span class="manifest faint">Buttons + Input</span></div>
+        <div class="body">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+            <button class="btn primary">Deploy</button>
+            <button class="btn">Dry run</button>
+            <button class="btn danger">Abort</button>
+          </div>
+          <label class="field">
+            <span class="manifest faint">Hostname</span>
+            <input class="input" type="text" placeholder="workbench.local" />
+          </label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span class="tag">#tokens</span>
+            <span class="tag">#dark-light</span>
+            <span class="tag">#portable</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head"><span class="manifest faint">Task states</span></div>
+        <div class="body">
+          <ul class="check-list">
+            <li><span class="cb on"></span><span class="done-text">Define token names</span></li>
+            <li><span class="cb on important"></span><span>Verify both modes</span></li>
+            <li><span class="cb on deferred"></span><span>Compact density pass</span></li>
+            <li><span class="cb on cancelled"></span><span class="done-text">Add drop shadows</span></li>
+            <li><span class="cb"></span><span>Ship it</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head"><span class="manifest faint">Callouts</span></div>
+        <div class="body">
+          <div class="callout tip"><span class="manifest">Tip</span>Nested panels step one surface further from the page — never a drop shadow.</div>
+          <div class="callout warn"><span class="manifest">Warning</span>A bright dark-mode accent usually must darken for light mode, not lighten.</div>
+          <div class="callout error"><span class="manifest">Error</span>Rainbow detected. One accent family only.</div>
+        </div>
+      </div>
+
+      <div class="card span2">
+        <div class="head"><span class="manifest faint">Table</span></div>
+        <div class="body">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Service</th><th>Uptime</th><th>P95</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>gateway</td><td>42d 07h</td><td>18 ms</td><td><span class="status ok">● healthy</span></td></tr>
+                <tr><td>indexer</td><td>42d 07h</td><td>210 ms</td><td><span class="status warn">● degraded</span></td></tr>
+                <tr><td>webhooks</td><td>0d 00h</td><td>—</td><td><span class="status err">● down</span></td></tr>
+                <tr><td>metrics</td><td>12d 19h</td><td>34 ms</td><td><span class="status ok">● healthy</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head"><span class="manifest faint">Code</span></div>
+        <div class="body" style="padding:14px">
+          <div class="codeblock">
+            <div class="head"><span class="manifest faint">rust</span><span class="manifest faint">main.rs</span></div>
+            <pre><span class="tok-cm">// signal carries the color</span>
+<span class="tok-kw">fn</span> <span class="tok-fn">render</span>(mode: <span class="tok-kw">Mode</span>) {
+    <span class="tok-kw">let</span> accent = <span class="tok-str">"#63f2ab"</span>;
+    <span class="tok-kw">let</span> steps = <span class="tok-num">5</span>;
+    <span class="tok-fn">paint</span>(accent, steps);
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="head"><span class="manifest faint">Log pane + scrollbar</span></div>
+        <div class="body">
+          <div class="scrollpane" tabindex="0">
+            <div><span class="ok">✓</span> tokens.css loaded</div>
+            <div><span class="ok">✓</span> dark mode resolved</div>
+            <div><span class="ok">✓</span> light mode resolved</div>
+            <div><span class="warn">⚠</span> berkeley mono not found, falling back</div>
+            <div><span class="ok">✓</span> contrast AA verified</div>
+            <div><span class="ok">✓</span> reduced-motion respected</div>
+            <div><span class="ok">✓</span> 0 gradients, 0 decorative shadows</div>
+            <div><span class="ok">✓</span> selection tint derived from accent</div>
+            <div><span class="ok">✓</span> focus rings armed</div>
+            <div>— end of log —</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="use">
+    <span class="manifest">§ Use It</span>
+    <ol class="usage-steps">
+      <li>
+        <h3>Link the tokens</h3>
+        <p>Grab <a href="tokens.css">tokens.css</a> from this repo, or hotlink it:</p>
+        <div class="codeblock">
+          <div class="head"><span class="manifest faint">html</span></div>
+          <pre>&lt;<span class="tok-kw">link</span> <span class="tok-fn">rel</span>=<span class="tok-str">"stylesheet"</span> <span class="tok-fn">href</span>=<span class="tok-str">"https://cdn.jsdelivr.net/gh/Real-Fruit-Snacks/style@main/tokens.css"</span>&gt;</pre>
+        </div>
+      </li>
+      <li>
+        <h3>Build on the variables</h3>
+        <p>Every token is a <code class="inline">--twb-*</code> custom property. Dark is default; light follows the system, or force it with <code class="inline">data-theme</code> on <code class="inline">&lt;html&gt;</code>.</p>
+        <div class="codeblock">
+          <div class="head"><span class="manifest faint">css</span></div>
+          <pre><span class="tok-fn">body</span> {
+  <span class="tok-kw">background</span>: <span class="tok-fn">var</span>(<span class="tok-str">--twb-bg-0</span>);
+  <span class="tok-kw">color</span>: <span class="tok-fn">var</span>(<span class="tok-str">--twb-text-normal</span>);
+  <span class="tok-kw">font</span>: <span class="tok-num">15px</span>/<span class="tok-num">1.7</span> <span class="tok-fn">var</span>(<span class="tok-str">--twb-font-ui</span>);
+}</pre>
+        </div>
+      </li>
+      <li>
+        <h3>Or hand the spec to a tool</h3>
+        <p>Building for a terminal, an editor, a slide deck? Give <a href="https://github.com/Real-Fruit-Snacks/style/blob/main/THEME-SPEC.md">THEME-SPEC.md</a> to any tool or AI — it carries the philosophy, both mode tables, and the component rules needed to reproduce the theme anywhere.</p>
+      </li>
+    </ol>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span class="manifest faint">Terminal Workbench · both modes mandatory</span>
+    <span class="manifest"><a href="https://github.com/Real-Fruit-Snacks/style">github.com/Real-Fruit-Snacks/style</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var KEY = "twb-mode";
+  var root = document.documentElement;
+  var buttons = document.querySelectorAll(".mode-switch button");
+
+  function apply(mode) {
+    if (mode === "light" || mode === "dark") {
+      root.setAttribute("data-theme", mode);
+    } else {
+      mode = "auto";
+      root.removeAttribute("data-theme");
+    }
+    buttons.forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+    });
+    try { localStorage.setItem(KEY, mode); } catch (e) {}
+    renderSwatches();
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.dataset.mode); });
+  });
+
+  /* Swatches: build from token lists, resolve live values */
+  function toHex(rgb) {
+    var m = rgb.match(/rgba?\(([^)]+)\)/);
+    if (!m) return rgb;
+    var p = m[1].split(",").map(function (s) { return parseFloat(s); });
+    var hex = "#" + p.slice(0, 3).map(function (n) {
+      return Math.round(n).toString(16).padStart(2, "0");
+    }).join("");
+    if (p.length === 4 && p[3] < 1) hex += Math.round(p[3] * 255).toString(16).padStart(2, "0");
+    return hex;
+  }
+
+  document.querySelectorAll(".swatches").forEach(function (grid) {
+    grid.dataset.tokens.split(",").forEach(function (name) {
+      var btn = document.createElement("button");
+      btn.className = "swatch";
+      btn.type = "button";
+      btn.innerHTML =
+        '<div class="chip" style="background:var(--twb-' + name + ')"></div>' +
+        '<div class="meta"><span class="name">--twb-' + name + '</span><span class="hex"></span></div>';
+      btn.addEventListener("click", function () {
+        var hex = btn.querySelector(".hex").textContent;
+        if (navigator.clipboard) navigator.clipboard.writeText(hex);
+        btn.classList.add("copied");
+        setTimeout(function () { btn.classList.remove("copied"); }, 600);
+      });
+      grid.appendChild(btn);
+    });
+  });
+
+  var probe = document.createElement("div");
+  probe.style.display = "none";
+  document.body.appendChild(probe);
+
+  function renderSwatches() {
+    requestAnimationFrame(function () {
+      document.querySelectorAll(".swatch").forEach(function (s) {
+        var name = s.querySelector(".name").textContent;
+        probe.style.color = "var(" + name + ")";
+        var v = getComputedStyle(probe).color;
+        s.querySelector(".hex").textContent = toHex(v);
+      });
+    });
+  }
+
+  var mq = window.matchMedia("(prefers-color-scheme: light)");
+  if (mq.addEventListener) mq.addEventListener("change", renderSwatches);
+
+  var saved = "auto";
+  try { saved = localStorage.getItem(KEY) || "auto"; } catch (e) {}
+  apply(saved);
+
+  /* Demo tabs are just for show */
+  document.querySelectorAll(".tab").forEach(function (t) {
+    t.addEventListener("click", function () {
+      t.closest(".tabbar").querySelectorAll(".tab").forEach(function (o) {
+        o.setAttribute("aria-selected", String(o === t));
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
