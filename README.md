@@ -1,10 +1,29 @@
-# Terminal Workbench — Style
+<div align="center">
 
-A portable design system: calm graphite surfaces, restrained ANSI-style accents, monospace "manifest" labels, and mandatory dark + light modes. Distilled from the [Terminal Workbench Obsidian theme](https://github.com/Real-Fruit-Snacks/terminal-workbench) into a form any project can consume.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Real-Fruit-Snacks/terminal-workbench-design-system/main/docs/assets/cover-dark.svg" />
+  <img alt="Terminal Workbench — portable design system" src="https://raw.githubusercontent.com/Real-Fruit-Snacks/terminal-workbench-design-system/main/docs/assets/cover-light.svg" width="820" />
+</picture>
 
-**Live demo:** https://real-fruit-snacks.github.io/terminal-workbench-design-system/
+<br/>
 
-## What's here
+A portable design system: calm graphite surfaces, restrained ANSI-style accents, monospace "manifest" labels, and mandatory dark + light modes.
+
+<br/>
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-f0c674?style=flat-square)](LICENSE)
+&nbsp;![Version](https://img.shields.io/badge/version-1.1.0-6bdcff?style=flat-square)
+&nbsp;![Modes](https://img.shields.io/badge/modes-dark%20%2B%20light-63f2ab?style=flat-square)
+
+[Live demo](https://real-fruit-snacks.github.io/terminal-workbench-design-system/) · [Theme spec](THEME-SPEC.md) · [Notepad++ themes](https://github.com/Real-Fruit-Snacks/terminal-workbench-notepad-plus-plus) · [Report an issue](https://github.com/Real-Fruit-Snacks/terminal-workbench-design-system/issues)
+
+</div>
+
+---
+
+## Overview
+
+Terminal Workbench is a working surface for people who live in panes, shells, logs, and code — not retro green-on-black novelty. The interface stays quiet; signal (links, prompts, active elements, syntax) carries the color. Distilled from the [Terminal Workbench Obsidian theme](https://github.com/Real-Fruit-Snacks/terminal-workbench) into a form any project can consume.
 
 | File | Purpose |
 |---|---|
@@ -49,6 +68,14 @@ Override `--twb-accent` (and `--twb-accent-alt` / `--twb-warm` if you like) — 
 ## Use it anywhere else
 
 For terminals, editors, dashboards, slide decks — anything that isn't CSS — give [THEME-SPEC.md](THEME-SPEC.md) to the tool or AI doing the work. Section 7 of the spec explains exactly which parts to hand over. The result should pass the spec's checklist: both modes, adequate contrast, quiet chrome, color spent only on signal.
+
+## Host it yourself
+
+Everything the site needs is in this repo — `index.html`, `tokens.css`, and `THEME-SPEC.md`. Serve the repo root from any static host:
+
+- **GitHub Pages:** Settings → Pages → deploy from `main`, root folder.
+- **GitLab Pages:** the included [.gitlab-ci.yml](.gitlab-ci.yml) publishes the site on every push to the default branch.
+- **Anything else:** copy the files to any static web server; there is no build step.
 
 ## License
 

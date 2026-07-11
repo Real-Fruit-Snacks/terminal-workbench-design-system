@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 460" width="1200" height="460" role="img" aria-label="Terminal Workbench — a portable design system, with a preview of its design tokens">
+  <title>Terminal Workbench</title>
+  <rect x="0.75" y="0.75" width="1198.5" height="458.5" rx="24" fill="#f5f7f4" stroke="#bfcbc5" stroke-width="1.5"/>
+
+  <!-- left column -->
+  <text x="68" y="128" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="15" font-weight="600" letter-spacing="2.2" fill="#81918a">PORTABLE DESIGN SYSTEM</text>
+  <text x="66" y="204" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="58" font-weight="700" letter-spacing="0.5" fill="#17201d">terminal</text>
+  <text x="66" y="268" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="58" font-weight="700" letter-spacing="0.5" fill="#17201d">workbench</text>
+  <rect x="372" y="224" width="13" height="44" rx="2" fill="#007a4d"/>
+  <text x="68" y="326" font-family="ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif" font-size="21" fill="#60706a">Quiet chrome. <tspan fill="#007a4d" font-weight="600">Loud signal.</tspan></text>
+  <text x="68" y="384" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="12.5" letter-spacing="1.6" fill="#81918a">TOKENS · TYPOGRAPHY · COMPONENTS · DARK + LIGHT</text>
+
+  <!-- right column: mock tokens panel -->
+  <rect x="624" y="64" width="512" height="332" rx="14" fill="#e2eae5" stroke="#bfcbc5" stroke-width="1.5"/>
+  <path d="M638 64 h484 a14 14 0 0 1 14 14 v30 h-512 v-30 a14 14 0 0 1 14 -14 z" fill="#d6e1db"/>
+  <line x1="624" y1="108" x2="1136" y2="108" stroke="#bfcbc5" stroke-width="1"/>
+  <circle cx="648" cy="86" r="5.5" fill="#c8324c"/>
+  <circle cx="668" cy="86" r="5.5" fill="#a46600"/>
+  <circle cx="688" cy="86" r="5.5" fill="#007a4d"/>
+  <text x="714" y="90" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="12" fill="#81918a">style / tokens.css — dark + light</text>
+
+  <!-- accent swatch row -->
+  <rect x="648" y="132" width="56" height="34" rx="6" fill="#007a4d"/>
+  <rect x="722" y="132" width="56" height="34" rx="6" fill="#006f9e"/>
+  <rect x="796" y="132" width="56" height="34" rx="6" fill="#a46600"/>
+  <rect x="870" y="132" width="56" height="34" rx="6" fill="#c8324c"/>
+  <rect x="944" y="132" width="56" height="34" rx="6" fill="#b65800"/>
+  <rect x="1018" y="132" width="56" height="34" rx="6" fill="#7357b8"/>
+
+  <!-- surface ramp -->
+  <rect x="648" y="180" width="426" height="12" rx="3" fill="#edf2ee" stroke="#bfcbc5" stroke-width="1"/>
+  <rect x="648" y="180" width="284" height="12" rx="3" fill="#d6e1db"/>
+  <rect x="648" y="180" width="142" height="12" rx="3" fill="#c8d5cf"/>
+
+  <!-- code sample -->
+  <text x="648" y="234" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="15" fill="#34443f">:root {</text>
+  <text x="676" y="262" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="15"><tspan fill="#006f9e">--twb-accent</tspan><tspan fill="#34443f">: </tspan><tspan fill="#007a4d">#007a4d</tspan><tspan fill="#34443f">;</tspan></text>
+  <text x="676" y="290" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="15"><tspan fill="#006f9e">--twb-bg-0</tspan><tspan fill="#34443f">: </tspan><tspan fill="#81918a">#f5f7f4</tspan><tspan fill="#34443f">;</tspan></text>
+  <text x="676" y="318" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="15"><tspan fill="#006f9e">--twb-radius-m</tspan><tspan fill="#34443f">: </tspan><tspan fill="#b65800">6px</tspan><tspan fill="#34443f">;</tspan></text>
+  <text x="648" y="346" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="15" fill="#34443f">}</text>
+
+  <!-- prompt line -->
+  <text x="648" y="380" font-family="ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace" font-size="13"><tspan fill="#007a4d" font-weight="700">❯</tspan><tspan fill="#60706a"> both modes verified · AA contrast</tspan></text>
+</svg>
