@@ -1,0 +1,17 @@
+# GitLab Pages deployment for the Terminal Workbench design system.
+# Publishes the static site on every push to the default branch.
+# No build step — the site is served as-is from the repo files.
+
+pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - mkdir -p public
+    - cp index.html tokens.css THEME-SPEC.md LICENSE public/
+    - mkdir -p public/docs/assets
+    - cp docs/assets/*.svg public/docs/assets/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
