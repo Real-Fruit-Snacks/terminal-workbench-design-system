@@ -12,7 +12,7 @@ A portable design system: calm graphite surfaces, restrained ANSI-style accents,
 <br/>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-f0c674?style=flat-square)](LICENSE)
-&nbsp;![Version](https://img.shields.io/badge/version-1.1.0-6bdcff?style=flat-square)
+&nbsp;![Version](https://img.shields.io/badge/version-1.2.0-6bdcff?style=flat-square)
 &nbsp;![Modes](https://img.shields.io/badge/modes-dark%20%2B%20light-63f2ab?style=flat-square)
 
 [Live demo](https://real-fruit-snacks.github.io/terminal-workbench-design-system/) · [Theme spec](THEME-SPEC.md) · [Notepad++ themes](https://github.com/Real-Fruit-Snacks/terminal-workbench-notepad-plus-plus) · [Report an issue](https://github.com/Real-Fruit-Snacks/terminal-workbench-design-system/issues)
@@ -29,6 +29,7 @@ Terminal Workbench is a working surface for people who live in panes, shells, lo
 |---|---|
 | [THEME-SPEC.md](THEME-SPEC.md) | The source of truth — philosophy, token tables (both modes), typography, shape, motion, and component patterns. Platform-agnostic; hand it to any tool, framework, or AI to reproduce the theme anywhere. |
 | [tokens.css](tokens.css) | Drop-in CSS custom properties implementing the spec. Dark by default, light via `prefers-color-scheme` or `data-theme`. |
+| [fonts.css](fonts.css) | Optional `@font-face` loader for [Terminal Workbench Mono](https://github.com/Real-Fruit-Snacks/terminal-workbench-mono), the system's official monospace (served via jsDelivr from that repo). |
 | [index.html](index.html) | The demo page — a living reference of every token and component, built on `tokens.css`. |
 
 ## Use it in a web project
@@ -36,6 +37,7 @@ Terminal Workbench is a working surface for people who live in panes, shells, lo
 Link the tokens:
 
 ```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Real-Fruit-Snacks/terminal-workbench-design-system@main/fonts.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Real-Fruit-Snacks/terminal-workbench-design-system@main/tokens.css">
 ```
 
@@ -64,6 +66,15 @@ Override `--twb-accent` (and `--twb-accent-alt` / `--twb-warm` if you like) — 
 ```css
 :root { --twb-accent: #7aa2f7; }
 ```
+
+## Official typeface
+
+[Terminal Workbench Mono](https://github.com/Real-Fruit-Snacks/terminal-workbench-mono)
+is the official `--twb-font-mono` face — a clean geometric monospace with a
+slashed zero, coding ligatures and a full terminal pack, built for this
+system. `fonts.css` loads it on the web; grab the TTFs from its
+[releases](https://github.com/Real-Fruit-Snacks/terminal-workbench-mono/releases)
+for terminals and editors.
 
 ## Use it anywhere else
 

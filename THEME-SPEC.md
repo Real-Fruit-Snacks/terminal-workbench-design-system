@@ -98,9 +98,13 @@ Three font roles. The consumer supplies actual families; these are the defaults 
 
 | Role | Default stack | Used for |
 |---|---|---|
-| `font-mono` | Berkeley Mono → JetBrains Mono → Cascadia Code → IBM Plex Mono → SFMono-Regular → Consolas → monospace | Code, and all "manifest" UI labels |
+| `font-mono` | **Terminal Workbench Mono** → Berkeley Mono → JetBrains Mono → Cascadia Code → IBM Plex Mono → SFMono-Regular → Consolas → monospace | Code, and all "manifest" UI labels |
 | `font-ui` | Inter → SF Pro Text → Segoe UI → system-ui → sans-serif | Interface chrome, nav, prose (interface) |
 | `font-text` | same as mono here (editor is monospace by design) | Editor / reading body |
+
+**Official face:** [Terminal Workbench Mono](https://github.com/Real-Fruit-Snacks/terminal-workbench-mono)
+is the system's own monospace. Web consumers load it by linking this repo's
+`fonts.css`; elsewhere, install the TTFs from that repo's releases.
 
 **Respect host font settings:** if the platform lets a user pick fonts, the theme's stacks should be a *fallback layer*, not an override. Users' choices win.
 

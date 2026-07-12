@@ -159,8 +159,8 @@
 /* ---------- Mode-independent tokens ---------- */
 :root {
   /* Typography */
-  --twb-font-mono: "Berkeley Mono", "JetBrains Mono", "Cascadia Code",
-    "IBM Plex Mono", SFMono-Regular, Consolas, monospace;
+  --twb-font-mono: "Terminal Workbench Mono", "Berkeley Mono", "JetBrains Mono",
+    "Cascadia Code", "IBM Plex Mono", SFMono-Regular, Consolas, monospace;
   --twb-font-ui: Inter, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
 
   --twb-line-height: 1.7;        /* prose */
